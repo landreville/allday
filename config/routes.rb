@@ -7,6 +7,7 @@ Rails.application.routes.draw do
             get :transcripts
           end
         end
+      get "memories/search", to: "memories#search"
       post "transcripts/import", to: "transcripts#import"
       resources :transcripts, only: [:show, :create, :update] do
         resources :messages, only: [:index, :create]
