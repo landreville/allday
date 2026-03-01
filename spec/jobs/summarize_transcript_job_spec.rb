@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "rails_helper"
 
 RSpec.describe SummarizeTranscriptJob, type: :job do
@@ -14,7 +16,7 @@ RSpec.describe SummarizeTranscriptJob, type: :job do
   end
 
   it "skips non-existent transcripts" do
-    expect { described_class.perform_now(999999) }.not_to raise_error
+    expect { described_class.perform_now(999_999) }.not_to raise_error
   end
 
   it "skips active transcripts" do

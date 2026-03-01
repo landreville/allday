@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CreateTranscripts < ActiveRecord::Migration[8.0]
   def change
     create_table :transcripts do |t|

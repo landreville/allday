@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Agent < ApplicationRecord
   belongs_to :user
   belongs_to :parent, class_name: "Agent", optional: true
@@ -5,7 +7,7 @@ class Agent < ApplicationRecord
   has_many :transcripts, dependent: :destroy
   has_many :memory_chunks, dependent: :destroy
 
-  enum :origin, { blank_slate: 0, continued: 1, branched: 2 }
+  enum :origin, {blank_slate: 0, continued: 1, branched: 2}
 
   validates :name, presence: true
   validates :origin, presence: true
@@ -14,8 +16,8 @@ class Agent < ApplicationRecord
   private
 
   def parent_required_for_branched
-    if branched? && parent_id.blank?
-      errors.add(:parent_id, "is required for branched agents")
-    end
+    return unless branched? && parent_id.blank?
+
+    errors.add(:parent_id, "is required for branched agents")
   end
 end

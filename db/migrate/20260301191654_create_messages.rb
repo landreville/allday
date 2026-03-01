@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CreateMessages < ActiveRecord::Migration[8.0]
   def change
     create_table :messages do |t|
@@ -13,6 +15,6 @@ class CreateMessages < ActiveRecord::Migration[8.0]
       t.timestamps
     end
 
-    add_index :messages, [:transcript_id, :sequence], unique: true
+    add_index :messages, %i[transcript_id sequence], unique: true
   end
 end

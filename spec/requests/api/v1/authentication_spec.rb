@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "rails_helper"
 
 RSpec.describe "API Authentication", type: :request do
@@ -19,7 +21,7 @@ RSpec.describe "API Authentication", type: :request do
 
   describe "with invalid API key" do
     it "returns 401" do
-      get "/api/v1/agents", headers: { "Authorization" => "Bearer bad-key" }
+      get "/api/v1/agents", headers: {"Authorization" => "Bearer bad-key"}
       expect(response).to have_http_status(:unauthorized)
     end
   end

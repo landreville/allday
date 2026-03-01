@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "rails_helper"
 
 RSpec.describe "Api::V1::Agents", type: :request do
@@ -14,14 +16,14 @@ RSpec.describe "Api::V1::Agents", type: :request do
       expect(response).to have_http_status(:ok)
       body = JSON.parse(response.body)
       expect(body.length).to eq(2)
-      expect(body.map { |a| a["name"] }).to contain_exactly("agent-1", "agent-2")
+      expect(body.pluck("name")).to contain_exactly("agent-1", "agent-2")
     end
   end
 
   describe "POST /api/v1/agents" do
     it "creates a blank_slate agent" do
       post "/api/v1/agents", headers: auth_headers(user), params: {
-        agent: { name: "my-agent", llm_model: "claude-opus-4-6", origin: "blank_slate" }
+        agent: {name: "my-agent", llm_model: "claude-opus-4-6", origin: "blank_slate"}
       }
 
       expect(response).to have_http_status(:created)
@@ -34,7 +36,7 @@ RSpec.describe "Api::V1::Agents", type: :request do
     it "creates a branched agent" do
       parent = create(:agent, user: user)
       post "/api/v1/agents", headers: auth_headers(user), params: {
-        agent: { name: "child-agent", origin: "branched", parent_id: parent.id }
+        agent: {name: "child-agent", origin: "branched", parent_id: parent.id}
       }
 
       expect(response).to have_http_status(:created)
@@ -44,7 +46,7 @@ RSpec.describe "Api::V1::Agents", type: :request do
 
     it "returns 422 for invalid params" do
       post "/api/v1/agents", headers: auth_headers(user), params: {
-        agent: { name: "" }
+        agent: {name: ""}
       }
 
       expect(response).to have_http_status(:unprocessable_entity)

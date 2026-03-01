@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class MemoryChunk < ApplicationRecord
   belongs_to :transcript
   belongs_to :agent

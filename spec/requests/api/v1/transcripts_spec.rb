@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "rails_helper"
 
 RSpec.describe "Api::V1::Transcripts", type: :request do
@@ -7,7 +9,7 @@ RSpec.describe "Api::V1::Transcripts", type: :request do
   describe "POST /api/v1/transcripts" do
     it "creates a new active transcript" do
       post "/api/v1/transcripts", headers: auth_headers(user), params: {
-        transcript: { agent_id: agent.id, source: "claude-code", source_session_id: "abc-123" }
+        transcript: {agent_id: agent.id, source: "claude-code", source_session_id: "abc-123"}
       }
 
       expect(response).to have_http_status(:created)
@@ -20,7 +22,7 @@ RSpec.describe "Api::V1::Transcripts", type: :request do
     it "rejects transcript for another user's agent" do
       other_agent = create(:agent)
       post "/api/v1/transcripts", headers: auth_headers(user), params: {
-        transcript: { agent_id: other_agent.id, source: "claude-code" }
+        transcript: {agent_id: other_agent.id, source: "claude-code"}
       }
 
       expect(response).to have_http_status(:unprocessable_entity)
@@ -44,7 +46,7 @@ RSpec.describe "Api::V1::Transcripts", type: :request do
       transcript = create(:transcript, agent: agent, status: :active)
 
       patch "/api/v1/transcripts/#{transcript.id}", headers: auth_headers(user), params: {
-        transcript: { status: "completed" }
+        transcript: {status: "completed"}
       }
 
       expect(response).to have_http_status(:ok)

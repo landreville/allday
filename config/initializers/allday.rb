@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Allday
   mattr_accessor :embedding_api_key
   mattr_accessor :embedding_model

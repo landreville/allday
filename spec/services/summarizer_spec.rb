@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "rails_helper"
 
 RSpec.describe Summarizer do
@@ -7,9 +9,12 @@ RSpec.describe Summarizer do
 
   before do
     create(:message, transcript: transcript, agent: agent, role: :user, content: "Help me set up OAuth", sequence: 1)
-    create(:message, transcript: transcript, agent: agent, role: :assistant, content: "I'll help with OAuth. Let me check the auth controller.", sequence: 2)
-    create(:message, transcript: transcript, agent: agent, role: :user, content: "Now let's add rate limiting", sequence: 3)
-    create(:message, transcript: transcript, agent: agent, role: :assistant, content: "I'll add rate limiting using Rack::Attack.", sequence: 4)
+    create(:message, transcript: transcript, agent: agent, role: :assistant,
+      content: "I'll help with OAuth. Let me check the auth controller.", sequence: 2)
+    create(:message, transcript: transcript, agent: agent, role: :user, content: "Now let's add rate limiting",
+      sequence: 3)
+    create(:message, transcript: transcript, agent: agent, role: :assistant,
+      content: "I'll add rate limiting using Rack::Attack.", sequence: 4)
   end
 
   describe "#summarize" do
@@ -19,14 +24,14 @@ RSpec.describe Summarizer do
           {
             "topic" => "OAuth setup",
             "summary" => "Helped set up OAuth authentication in the auth controller.",
-            "skills" => ["oauth", "authentication", "rails"],
+            "skills" => %w[oauth authentication rails],
             "message_range_start" => 1,
             "message_range_end" => 2
           },
           {
             "topic" => "Rate limiting",
             "summary" => "Added rate limiting using Rack::Attack middleware.",
-            "skills" => ["rate-limiting", "rack", "security"],
+            "skills" => %w[rate-limiting rack security],
             "message_range_start" => 3,
             "message_range_end" => 4
           }

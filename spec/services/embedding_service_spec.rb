@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "rails_helper"
 
 RSpec.describe EmbeddingService do
@@ -8,9 +10,9 @@ RSpec.describe EmbeddingService do
         .to_return(
           status: 200,
           body: {
-            data: [{ embedding: Array.new(1536) { |i| i * 0.001 } }]
+            data: [{embedding: Array.new(1536) { |i| i * 0.001 }}]
           }.to_json,
-          headers: { "Content-Type" => "application/json" }
+          headers: {"Content-Type" => "application/json"}
         )
 
       result = described_class.new.embed("test text")
@@ -28,11 +30,11 @@ RSpec.describe EmbeddingService do
           status: 200,
           body: {
             data: [
-              { embedding: Array.new(1536) { 0.1 } },
-              { embedding: Array.new(1536) { 0.2 } }
+              {embedding: Array.new(1536) { 0.1 }},
+              {embedding: Array.new(1536) { 0.2 }}
             ]
           }.to_json,
-          headers: { "Content-Type" => "application/json" }
+          headers: {"Content-Type" => "application/json"}
         )
 
       results = described_class.new.embed_batch(["text one", "text two"])

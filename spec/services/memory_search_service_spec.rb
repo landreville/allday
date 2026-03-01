@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "rails_helper"
 
 RSpec.describe MemorySearchService do
@@ -11,13 +13,13 @@ RSpec.describe MemorySearchService do
     create(:memory_chunk, agent: agent1, transcript: transcript1,
       topic: "OAuth implementation",
       summary: "Implemented OAuth2 with PKCE flow",
-      skills_demonstrated: ["oauth", "security"],
+      skills_demonstrated: %w[oauth security],
       embedding: [1.0] + Array.new(1535, 0.0))
 
     create(:memory_chunk, agent: agent2, transcript: transcript2,
       topic: "Database optimization",
       summary: "Optimized slow queries",
-      skills_demonstrated: ["postgresql", "performance"],
+      skills_demonstrated: %w[postgresql performance],
       embedding: [0.0, 1.0] + Array.new(1534, 0.0))
 
     allow_any_instance_of(EmbeddingService).to receive(:embed)

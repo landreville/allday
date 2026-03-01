@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CreateMemoryChunks < ActiveRecord::Migration[8.0]
   def change
     create_table :memory_chunks do |t|

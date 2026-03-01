@@ -1,10 +1,10 @@
+# frozen_string_literal: true
+
 module Api
   module V1
     class MemoriesController < BaseController
       def search
-        unless params[:query].present?
-          return render json: { error: "query parameter is required" }, status: :bad_request
-        end
+        return render json: {error: "query parameter is required"}, status: :bad_request if params[:query].blank?
 
         results = MemorySearchService.new(
           user: current_user,

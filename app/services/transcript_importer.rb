@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class TranscriptImporter
   def initialize(agent:, jsonl_content:, source:, source_session_id: nil, metadata: {})
     @agent = agent
@@ -31,7 +33,7 @@ class TranscriptImporter
       next unless message_data
 
       parsed_messages = parse_entry(message_data)
-      next if parsed_messages.nil? || parsed_messages.empty?
+      next if parsed_messages.blank?
 
       parsed_messages.each do |msg_attrs|
         sequence += 1
@@ -64,7 +66,7 @@ class TranscriptImporter
 
   def parse_user_content(content)
     if content.is_a?(String)
-      [{ role: :user, content: content }]
+      [{role: :user, content: content}]
     elsif content.is_a?(Array)
       content.filter_map do |block|
         case block["type"]
@@ -74,16 +76,16 @@ class TranscriptImporter
           else
             block["content"]&.filter_map { |c| c["text"] }&.join("\n")
           end
-          { role: :tool_result, content: text, metadata: { tool_use_id: block["tool_use_id"] } }
+          {role: :tool_result, content: text, metadata: {tool_use_id: block["tool_use_id"]}}
         when "text"
-          { role: :user, content: block["text"] }
+          {role: :user, content: block["text"]}
         end
       end
     end
   end
 
   def parse_assistant_content(content, message_data)
-    return [{ role: :assistant, content: content }] if content.is_a?(String)
+    return [{role: :assistant, content: content}] if content.is_a?(String)
     return nil unless content.is_a?(Array)
 
     thinking = nil
@@ -105,7 +107,7 @@ class TranscriptImporter
         role: :assistant,
         content: text_parts.join("\n"),
         thinking: thinking,
-        metadata: { model: message_data["model"] }.compact
+        metadata: {model: message_data["model"]}.compact
       }
     end
 
@@ -114,13 +116,14 @@ class TranscriptImporter
         role: :tool_call,
         content: tc["input"]&.to_json,
         thinking: (thinking if results.empty?),
-        metadata: { tool_name: tc["name"], tool_use_id: tc["id"], model: message_data["model"] }.compact
+        metadata: {tool_name: tc["name"], tool_use_id: tc["id"], model: message_data["model"]}.compact
       }
     end
 
     # Thinking-only (no text, no tools)
     if results.empty? && thinking
-      results << { role: :assistant, content: nil, thinking: thinking, metadata: { model: message_data["model"] }.compact }
+      results << {role: :assistant, content: nil, thinking: thinking,
+                   metadata: {model: message_data["model"]}.compact}
     end
 
     results.presence

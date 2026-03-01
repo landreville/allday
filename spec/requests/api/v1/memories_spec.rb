@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "rails_helper"
 
 RSpec.describe "Api::V1::Memories", type: :request do
@@ -15,7 +17,7 @@ RSpec.describe "Api::V1::Memories", type: :request do
 
   describe "GET /api/v1/memories/search" do
     it "returns search results" do
-      get "/api/v1/memories/search", headers: auth_headers(user), params: { query: "authentication" }
+      get "/api/v1/memories/search", headers: auth_headers(user), params: {query: "authentication"}
 
       expect(response).to have_http_status(:ok)
       body = JSON.parse(response.body)
