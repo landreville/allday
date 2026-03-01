@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "rails_helper"
 
 RSpec.describe MemoryChunk, type: :model do
@@ -20,10 +22,11 @@ RSpec.describe MemoryChunk, type: :model do
 
       chunk1 = create(:memory_chunk, transcript: transcript, agent: agent,
         topic: "auth", embedding: [1.0] + Array.new(1535, 0.0))
-      chunk2 = create(:memory_chunk, transcript: transcript, agent: agent,
+      create(:memory_chunk, transcript: transcript, agent: agent,
         topic: "database", embedding: [0.0, 1.0] + Array.new(1534, 0.0))
 
-      results = MemoryChunk.nearest_neighbors(:embedding, [1.0, 0.1] + Array.new(1534, 0.0), distance: "cosine").first(5)
+      results = MemoryChunk.nearest_neighbors(:embedding, [1.0, 0.1] + Array.new(1534, 0.0),
+        distance: "cosine").first(5)
       expect(results.first).to eq(chunk1)
     end
   end

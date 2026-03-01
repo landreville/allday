@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class SummarizeTranscriptJob < ApplicationJob
   queue_as :default
 

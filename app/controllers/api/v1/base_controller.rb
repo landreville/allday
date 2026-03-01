@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Api
   module V1
     class BaseController < ApplicationController
@@ -9,14 +11,12 @@ module Api
         token = request.headers["Authorization"]&.delete_prefix("Bearer ")
         @current_user = User.find_by(api_key: token)
 
-        unless @current_user
-          render json: { error: "Invalid API key" }, status: :unauthorized
-        end
+        return if @current_user
+
+        render json: {error: "Invalid API key"}, status: :unauthorized
       end
 
-      def current_user
-        @current_user
-      end
+      attr_reader :current_user
 
       def current_agent
         @current_agent ||= if request.headers["X-Agent-Id"].present?

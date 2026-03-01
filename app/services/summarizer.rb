@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Summarizer
   SYSTEM_PROMPT = <<~PROMPT
     You are a conversation analyst. Given a transcript of messages between a user and an AI assistant, identify distinct topics/tasks discussed and produce a JSON summary.

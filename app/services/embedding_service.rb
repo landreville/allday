@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class EmbeddingService
   def initialize
     @conn = Faraday.new(url: "https://api.openai.com") do |f|
@@ -21,6 +23,6 @@ class EmbeddingService
 
     raise "Embedding API error: #{response.status} #{response.body}" unless response.success?
 
-    response.body["data"].map { |d| d["embedding"] }
+    response.body["data"].pluck("embedding")
   end
 end
