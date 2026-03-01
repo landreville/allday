@@ -1,0 +1,22 @@
+{
+  "permissions": {
+    "allow": [
+      "mcp__context7__resolve-library-id",
+      "mcp__context7__query-docs",
+      "Bash(rails:*)",
+      "Bash(bundle install:*)",
+      "Bash(gem search:*)",
+      "Bash(RAILS_ENV=test bundle exec:*)",
+      "Bash(bundle exec:*)",
+      "Bash(docker:*)",
+      "Bash(PGPASSWORD=allday psql:*)",
+      "Bash(git add:*)",
+      "Bash(bundle list:*)",
+      "Bash(gem:*)",
+      "Bash(git commit:*)",
+      "Bash(bin/rails generate:*)",
+      "Bash(bin/rails db:migrate:*)",
+      "Bash(bin/rails:*)"
+    ]
+  }
+}

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2026_03_01_190942) do
+ActiveRecord::Schema[8.0].define(version: 2026_03_01_191435) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "vector"
@@ -29,6 +29,20 @@ ActiveRecord::Schema[8.0].define(version: 2026_03_01_190942) do
     t.index ["user_id"], name: "index_agents_on_user_id"
   end
 
+  create_table "transcripts", force: :cascade do |t|
+    t.bigint "agent_id", null: false
+    t.string "source", null: false
+    t.string "source_session_id"
+    t.integer "status", default: 0, null: false
+    t.datetime "started_at"
+    t.datetime "completed_at"
+    t.jsonb "metadata", default: {}
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["agent_id"], name: "index_transcripts_on_agent_id"
+    t.index ["source_session_id"], name: "index_transcripts_on_source_session_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "name", null: false
     t.string "email", null: false
@@ -41,4 +55,5 @@ ActiveRecord::Schema[8.0].define(version: 2026_03_01_190942) do
 
   add_foreign_key "agents", "agents", column: "parent_id"
   add_foreign_key "agents", "users"
+  add_foreign_key "transcripts", "agents"
 end

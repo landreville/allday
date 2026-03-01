@@ -13,10 +13,7 @@ RSpec.describe Agent, type: :model do
     it { should belong_to(:user) }
     it { should belong_to(:parent).class_name("Agent").optional }
     it { should have_many(:children).class_name("Agent").with_foreign_key(:parent_id) }
-    it "has many transcripts" do
-      pending "Transcript model not yet created (Task 4)"
-      should have_many(:transcripts).dependent(:destroy)
-    end
+    it { should have_many(:transcripts).dependent(:destroy) }
 
     it "has many memory_chunks" do
       pending "MemoryChunk model not yet created (Task 6)"
