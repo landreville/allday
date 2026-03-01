@@ -1,7 +1,12 @@
 Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
-      resources :agents, only: [:index]
+      resources :agents, only: [:index, :show, :create] do
+          member do
+            get :memories
+            get :transcripts
+          end
+        end
     end
   end
 
