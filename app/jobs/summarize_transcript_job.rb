@@ -2,6 +2,9 @@ class SummarizeTranscriptJob < ApplicationJob
   queue_as :default
 
   def perform(transcript_id)
-    # TODO: implement in Task 15
+    transcript = Transcript.find_by(id: transcript_id)
+    return unless transcript&.completed?
+
+    Summarizer.new(transcript).summarize
   end
 end
