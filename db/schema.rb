@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2026_03_01_190733) do
+ActiveRecord::Schema[8.0].define(version: 2026_03_01_190942) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "vector"
@@ -19,6 +19,13 @@ ActiveRecord::Schema[8.0].define(version: 2026_03_01_190733) do
     t.bigint "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "name", default: "", null: false
+    t.string "llm_model"
+    t.jsonb "model_config", default: {}
+    t.bigint "parent_id"
+    t.integer "origin", default: 0, null: false
+    t.jsonb "metadata", default: {}
+    t.index ["parent_id"], name: "index_agents_on_parent_id"
     t.index ["user_id"], name: "index_agents_on_user_id"
   end
 
@@ -32,5 +39,6 @@ ActiveRecord::Schema[8.0].define(version: 2026_03_01_190733) do
     t.index ["email"], name: "index_users_on_email", unique: true
   end
 
+  add_foreign_key "agents", "agents", column: "parent_id"
   add_foreign_key "agents", "users"
 end
