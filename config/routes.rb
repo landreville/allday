@@ -7,7 +7,9 @@ Rails.application.routes.draw do
             get :transcripts
           end
         end
-      resources :transcripts, only: [:show, :create, :update]
+      resources :transcripts, only: [:show, :create, :update] do
+        resources :messages, only: [:index, :create]
+      end
     end
   end
 
