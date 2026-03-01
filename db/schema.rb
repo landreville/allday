@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2026_03_01_191435) do
+ActiveRecord::Schema[8.0].define(version: 2026_03_01_191654) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "vector"
@@ -27,6 +27,22 @@ ActiveRecord::Schema[8.0].define(version: 2026_03_01_191435) do
     t.jsonb "metadata", default: {}
     t.index ["parent_id"], name: "index_agents_on_parent_id"
     t.index ["user_id"], name: "index_agents_on_user_id"
+  end
+
+  create_table "messages", force: :cascade do |t|
+    t.bigint "transcript_id", null: false
+    t.bigint "agent_id", null: false
+    t.integer "role", null: false
+    t.text "content"
+    t.text "thinking"
+    t.integer "sequence", null: false
+    t.datetime "timestamp"
+    t.jsonb "metadata", default: {}
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["agent_id"], name: "index_messages_on_agent_id"
+    t.index ["transcript_id", "sequence"], name: "index_messages_on_transcript_id_and_sequence", unique: true
+    t.index ["transcript_id"], name: "index_messages_on_transcript_id"
   end
 
   create_table "transcripts", force: :cascade do |t|
@@ -55,5 +71,7 @@ ActiveRecord::Schema[8.0].define(version: 2026_03_01_191435) do
 
   add_foreign_key "agents", "agents", column: "parent_id"
   add_foreign_key "agents", "users"
+  add_foreign_key "messages", "agents"
+  add_foreign_key "messages", "transcripts"
   add_foreign_key "transcripts", "agents"
 end

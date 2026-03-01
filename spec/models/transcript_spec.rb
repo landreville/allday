@@ -11,10 +11,7 @@ RSpec.describe Transcript, type: :model do
 
   describe "associations" do
     it { should belong_to(:agent) }
-    it "has many messages" do
-      pending "Message model not yet created (Task 5)"
-      should have_many(:messages).dependent(:destroy)
-    end
+    it { should have_many(:messages).dependent(:destroy) }
 
     it "has many memory_chunks" do
       pending "MemoryChunk model not yet created (Task 6)"
