@@ -1,0 +1,20 @@
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  host: <%= ENV.fetch("DATABASE_HOST", "localhost") %>
+  port: <%= ENV.fetch("DATABASE_PORT", "5434") %>
+  username: <%= ENV.fetch("DATABASE_USER", "allday") %>
+  password: <%= ENV.fetch("DATABASE_PASSWORD", "allday") %>
+
+development:
+  <<: *default
+  database: allday_development
+
+test:
+  <<: *default
+  database: allday_test
+
+production:
+  <<: *default
+  database: allday_production
