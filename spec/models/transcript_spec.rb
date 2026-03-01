@@ -13,9 +13,6 @@ RSpec.describe Transcript, type: :model do
     it { should belong_to(:agent) }
     it { should have_many(:messages).dependent(:destroy) }
 
-    it "has many memory_chunks" do
-      pending "MemoryChunk model not yet created (Task 6)"
-      should have_many(:memory_chunks).dependent(:destroy)
-    end
+    it { should have_many(:memory_chunks).dependent(:destroy) }
   end
 end

@@ -15,10 +15,7 @@ RSpec.describe Agent, type: :model do
     it { should have_many(:children).class_name("Agent").with_foreign_key(:parent_id) }
     it { should have_many(:transcripts).dependent(:destroy) }
 
-    it "has many memory_chunks" do
-      pending "MemoryChunk model not yet created (Task 6)"
-      should have_many(:memory_chunks).dependent(:destroy)
-    end
+    it { should have_many(:memory_chunks).dependent(:destroy) }
   end
 
   describe "branching" do

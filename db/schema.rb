@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2026_03_01_191654) do
+ActiveRecord::Schema[8.0].define(version: 2026_03_01_191929) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "vector"
@@ -27,6 +27,22 @@ ActiveRecord::Schema[8.0].define(version: 2026_03_01_191654) do
     t.jsonb "metadata", default: {}
     t.index ["parent_id"], name: "index_agents_on_parent_id"
     t.index ["user_id"], name: "index_agents_on_user_id"
+  end
+
+  create_table "memory_chunks", force: :cascade do |t|
+    t.bigint "transcript_id", null: false
+    t.bigint "agent_id", null: false
+    t.string "topic", null: false
+    t.text "summary", null: false
+    t.vector "embedding", limit: 1536
+    t.text "skills_demonstrated", default: [], array: true
+    t.integer "message_range_start"
+    t.integer "message_range_end"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["agent_id"], name: "index_memory_chunks_on_agent_id"
+    t.index ["embedding"], name: "index_memory_chunks_on_embedding", opclass: :vector_cosine_ops, using: :hnsw
+    t.index ["transcript_id"], name: "index_memory_chunks_on_transcript_id"
   end
 
   create_table "messages", force: :cascade do |t|
@@ -71,6 +87,8 @@ ActiveRecord::Schema[8.0].define(version: 2026_03_01_191654) do
 
   add_foreign_key "agents", "agents", column: "parent_id"
   add_foreign_key "agents", "users"
+  add_foreign_key "memory_chunks", "agents"
+  add_foreign_key "memory_chunks", "transcripts"
   add_foreign_key "messages", "agents"
   add_foreign_key "messages", "transcripts"
   add_foreign_key "transcripts", "agents"
