@@ -50,7 +50,7 @@ module Api
           jsonl_content: params[:jsonl],
           source: params[:source] || "claude-code",
           source_session_id: params[:source_session_id],
-          metadata: params[:metadata]&.permit!.to_h
+          metadata: permitted_import_metadata
         ).import
 
         SummarizeTranscriptJob.perform_later(transcript.id)
@@ -70,7 +70,29 @@ module Api
       end
 
       def transcript_params
-        params.require(:transcript).permit(:agent_id, :source, :source_session_id, :status, metadata: {})
+        base_params = params.require(:transcript).permit(:agent_id, :source, :source_session_id, :status)
+
+        # Allow specific metadata keys that are commonly used
+        if params[:transcript][:metadata].present?
+          metadata_params = params[:transcript][:metadata].permit(
+            :hook_type, :timestamp, :project_path, :claude_model, :workspace,
+            :duration, :total_messages, :total_tools_used, :completion_reason,
+            :test, :description, files_modified: []
+          )
+          base_params[:metadata] = metadata_params.to_h
+        end
+
+        base_params
+      end
+
+      def permitted_import_metadata
+        return {} if params[:metadata].blank?
+
+        params[:metadata].permit(
+          :hook_type, :timestamp, :project_path, :claude_model, :workspace,
+          :duration, :total_messages, :total_tools_used, :completion_reason,
+          :source, :auto_created, :test, :description
+        ).to_h
       end
     end
   end

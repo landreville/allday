@@ -3,8 +3,8 @@
 class TranscriptChannel < ApplicationCable::Channel
   def subscribed
     transcript = current_user.agents.joins(:transcripts)
-                              .where(transcripts: {id: params[:transcript_id]})
-                              .first&.transcripts&.find_by(id: params[:transcript_id])
+      .where(transcripts: {id: params[:transcript_id]})
+      .first&.transcripts&.find_by(id: params[:transcript_id])
 
     if transcript
       stream_from "transcript_#{transcript.id}"
