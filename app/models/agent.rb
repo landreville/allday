@@ -16,6 +16,18 @@ class Agent < ApplicationRecord
   # Scopes for different client types
   scope :claude_code, -> { where(client: "claude_code") }
 
+  def running?
+    transcripts.active.exists?
+  end
+
+  def status
+    running? ? :running : :dormant
+  end
+
+  def last_activity
+    transcripts.order(:updated_at).last&.updated_at
+  end
+
   private
 
   def parent_required_for_branched

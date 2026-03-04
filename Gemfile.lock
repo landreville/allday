@@ -125,6 +125,10 @@ GEM
     hashdiff (1.2.1)
     i18n (1.14.8)
       concurrent-ruby (~> 1.0)
+    importmap-rails (2.2.3)
+      actionpack (>= 6.0.0)
+      activesupport (>= 6.0.0)
+      railties (>= 6.0.0)
     io-console (0.8.2)
     irb (1.17.0)
       pp (>= 0.6.0)
@@ -350,6 +354,8 @@ GEM
     standard-rails (1.6.0)
       lint_roller (~> 1.0)
       rubocop-rails (~> 2.34.0)
+    stimulus-rails (1.3.4)
+      railties (>= 6.0.0)
     stringio (3.2.0)
     thor (1.5.0)
     thruster (0.1.18)
@@ -357,6 +363,9 @@ GEM
     thruster (0.1.18-x86_64-linux)
     timeout (0.6.0)
     tsort (0.2.0)
+    turbo-rails (2.0.23)
+      actionpack (>= 7.1.0)
+      railties (>= 7.1.0)
     tzinfo (2.0.6)
       concurrent-ruby (~> 1.0)
     unicode-display_width (3.2.0)
@@ -391,6 +400,7 @@ DEPENDENCIES
   debug
   factory_bot_rails
   faraday
+  importmap-rails
   kamal
   neighbor
   pg (~> 1.1)
@@ -404,7 +414,9 @@ DEPENDENCIES
   solid_queue
   standard (>= 1.35.1)
   standard-rails
+  stimulus-rails
   thruster
+  turbo-rails
   tzinfo-data
   webmock
 
