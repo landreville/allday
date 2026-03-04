@@ -13,7 +13,7 @@ require "action_controller/railtie"
 # require "action_mailbox/engine"
 # require "action_text/engine"
 require "action_view/railtie"
-# require "action_cable/engine"
+require "action_cable/engine"
 require "rails/test_unit/railtie"
 
 # Require the gems listed in Gemfile, including any gems
@@ -44,5 +44,8 @@ module MemorySystem
     config.api_only = true
 
     config.active_job.queue_adapter = :sidekiq
+
+    # ActionCable configuration for real-time streaming
+    config.action_cable.disable_request_forgery_protection = true
   end
 end
