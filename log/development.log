@@ -142,3 +142,38 @@ FOREIGN KEY ("agent_id")
   [1m[36mTRANSACTION (1.1ms)[0m  [1m[35mCOMMIT /*application='MemorySystem'*/[0m
   [1m[35m (0.3ms)[0m  [1m[34mSELECT pg_advisory_unlock(769200182807513940) /*application='MemorySystem'*/[0m
   [1m[36mActiveRecord::SchemaMigration Load (0.3ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='MemorySystem'*/[0m
+  [1m[35m (0.3ms)[0m  [1m[34mSELECT pg_try_advisory_lock(769200182807513940) /*application='MemorySystem'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.6ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='MemorySystem'*/[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.5ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = 'environment' ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1 /*application='MemorySystem'*/[0m
+Migrating to AddClientToAgents (20260304195217)
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mBEGIN /*application='MemorySystem'*/[0m
+  [1m[35m (2.0ms)[0m  [1m[35mALTER TABLE "agents" ADD "client" character varying /*application='MemorySystem'*/[0m
+  [1m[35m (0.8ms)[0m  [1m[35mCREATE INDEX "index_agents_on_client" ON "agents" ("client") /*application='MemorySystem'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Create (0.3ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ('20260304195217') RETURNING "version" /*application='MemorySystem'*/[0m
+  [1m[36mTRANSACTION (0.7ms)[0m  [1m[35mCOMMIT /*application='MemorySystem'*/[0m
+  [1m[35m (0.3ms)[0m  [1m[34mSELECT pg_advisory_unlock(769200182807513940) /*application='MemorySystem'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.3ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='MemorySystem'*/[0m
+  [1m[36mAgent Load (2.7ms)[0m  [1m[34mSELECT "agents".* FROM "agents" WHERE "agents"."name" = 'Claude Code' /*application='MemorySystem'*/[0m
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mBEGIN /*application='MemorySystem'*/[0m
+  [1m[36mAgent Update All (1.6ms)[0m  [1m[33mUPDATE "agents" SET "parent_id" = NULL WHERE "agents"."parent_id" = 1 /*application='MemorySystem'*/[0m
+  [1m[36mTranscript Load (0.5ms)[0m  [1m[34mSELECT "transcripts".* FROM "transcripts" WHERE "transcripts"."agent_id" = 1 /*application='MemorySystem'*/[0m
+  [1m[36mMessage Load (0.6ms)[0m  [1m[34mSELECT "messages".* FROM "messages" WHERE "messages"."transcript_id" = 1 ORDER BY "messages"."sequence" ASC /*application='MemorySystem'*/[0m
+  [1m[36mMessage Destroy (0.5ms)[0m  [1m[31mDELETE FROM "messages" WHERE "messages"."id" = 1 /*application='MemorySystem'*/[0m
+  [1m[36mMessage Destroy (0.4ms)[0m  [1m[31mDELETE FROM "messages" WHERE "messages"."id" = 2 /*application='MemorySystem'*/[0m
+  [1m[36mMessage Destroy (0.4ms)[0m  [1m[31mDELETE FROM "messages" WHERE "messages"."id" = 3 /*application='MemorySystem'*/[0m
+  [1m[36mMessage Destroy (1.0ms)[0m  [1m[31mDELETE FROM "messages" WHERE "messages"."id" = 4 /*application='MemorySystem'*/[0m
+  [1m[36mMessage Destroy (0.2ms)[0m  [1m[31mDELETE FROM "messages" WHERE "messages"."id" = 5 /*application='MemorySystem'*/[0m
+  [1m[36mMessage Destroy (0.3ms)[0m  [1m[31mDELETE FROM "messages" WHERE "messages"."id" = 6 /*application='MemorySystem'*/[0m
+  [1m[36mMemoryChunk Load (2.3ms)[0m  [1m[34mSELECT "memory_chunks".* FROM "memory_chunks" WHERE "memory_chunks"."transcript_id" = 1 /*application='MemorySystem'*/[0m
+  [1m[36mTranscript Destroy (0.6ms)[0m  [1m[31mDELETE FROM "transcripts" WHERE "transcripts"."id" = 1 /*application='MemorySystem'*/[0m
+  [1m[36mMemoryChunk Load (0.4ms)[0m  [1m[34mSELECT "memory_chunks".* FROM "memory_chunks" WHERE "memory_chunks"."agent_id" = 1 /*application='MemorySystem'*/[0m
+  [1m[36mAgent Destroy (0.9ms)[0m  [1m[31mDELETE FROM "agents" WHERE "agents"."id" = 1 /*application='MemorySystem'*/[0m
+  [1m[36mTRANSACTION (0.9ms)[0m  [1m[35mCOMMIT /*application='MemorySystem'*/[0m
+  [1m[36mUser Load (0.6ms)[0m  [1m[34mSELECT "users".* FROM "users" ORDER BY "users"."id" ASC LIMIT 1 /*application='MemorySystem'*/[0m
+  [1m[36mAgent Load (0.4ms)[0m  [1m[34mSELECT "agents".* FROM "agents" WHERE "agents"."user_id" = 1 AND "agents"."name" = 'Claude Code' AND "agents"."client" = 'claude_code' LIMIT 1 /*application='MemorySystem'*/[0m
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mBEGIN /*application='MemorySystem'*/[0m
+  [1m[36mAgent Create (1.9ms)[0m  [1m[32mINSERT INTO "agents" ("user_id", "created_at", "updated_at", "name", "llm_model", "model_config", "parent_id", "origin", "metadata", "client") VALUES (1, '2026-03-04 19:53:27.213643', '2026-03-04 19:53:27.213643', 'Claude Code', 'claude-3-5-sonnet', '{}', NULL, 0, '{}', 'claude_code') RETURNING "id" /*application='MemorySystem'*/[0m
+  [1m[36mTRANSACTION (0.7ms)[0m  [1m[35mCOMMIT /*application='MemorySystem'*/[0m
+  [1m[36mAgent Count (0.4ms)[0m  [1m[34mSELECT COUNT(*) FROM "agents" WHERE "agents"."client" = 'claude_code' /*application='MemorySystem'*/[0m
+  [1m[36mTranscript Load (0.6ms)[0m  [1m[34mSELECT "transcripts".* FROM "transcripts" WHERE "transcripts"."id" = 2 LIMIT 1 /*application='MemorySystem'*/[0m
+  [1m[36mAgent Load (0.7ms)[0m  [1m[34mSELECT "agents".* FROM "agents" WHERE "agents"."id" = 2 LIMIT 1 /*application='MemorySystem'*/[0m

@@ -57,3 +57,14 @@ build-iPhoneSimulator/
 
 # Ignore master key for decrypting credentials and more.
 /config/master.key
+
+# Python bytecode and cache files
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyo
+*.pyc
+
+# Test and development files
+test_*.py
+*_test.py

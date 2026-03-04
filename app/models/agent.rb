@@ -13,6 +13,9 @@ class Agent < ApplicationRecord
   validates :origin, presence: true
   validate :parent_required_for_branched
 
+  # Scopes for different client types
+  scope :claude_code, -> { where(client: 'claude_code') }
+
   private
 
   def parent_required_for_branched
