@@ -10,6 +10,6 @@ class ApplicationController < ActionController::Base
   private
 
   def api_request?
-    request.format.json? || request.path.start_with?('/api/')
+    request.format.json? || request.path.start_with?("/api/")
   end
 end

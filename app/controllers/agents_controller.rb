@@ -5,7 +5,7 @@ class AgentsController < ApplicationController
 
   def index
     @agents = current_user.agents.includes(:transcripts)
-                          .order(:name)
+      .order(:name)
   end
 
   private
