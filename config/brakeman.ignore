@@ -1,0 +1,14 @@
+{
+  "ignored_warnings": [
+    {
+      "fingerprint": "ec3b7de66be351b05617a56915c1d52cdb13ffe20b9b891bc3cbe4fee37ae707",
+      "note": "Basic message parameters (role, content, thinking, sequence, timestamp) are intentionally allowed for API functionality. These are core message fields and not a security risk.",
+      "warning_type": "Mass Assignment",
+      "warning_code": 105,
+      "file": "app/controllers/api/v1/messages_controller.rb",
+      "line": 41
+    }
+  ],
+  "updated": "2026-03-04T20:19:00.000Z",
+  "brakeman_version": "8.0.4"
+}
