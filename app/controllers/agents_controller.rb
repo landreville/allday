@@ -8,6 +8,12 @@ class AgentsController < ApplicationController
       .order(:name)
   end
 
+  def show
+    @agent = current_user.agents.find(params[:id])
+    @messages = @agent.messages.includes(:transcript)
+      .order(:sequence)
+  end
+
   private
 
   def current_user
