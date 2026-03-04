@@ -12,6 +12,8 @@ class AgentsController < ApplicationController
     @agent = current_user.agents.find(params[:id])
     @messages = @agent.messages.includes(:transcript)
       .order(:sequence)
+    @memory_chunks = @agent.memory_chunks.includes(:transcript)
+      .order(created_at: :desc)
   end
 
   private
