@@ -1,6 +1,9 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
+  # Web interface routes
+  root "agents#index"
+  resources :agents, only: [:index, :show]
   namespace :api do
     namespace :v1 do
       resources :agents, only: %i[index show create] do
