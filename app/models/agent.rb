@@ -14,7 +14,7 @@ class Agent < ApplicationRecord
   validate :parent_required_for_branched
 
   # Scopes for different client types
-  scope :claude_code, -> { where(client: 'claude_code') }
+  scope :claude_code, -> { where(client: "claude_code") }
 
   private
 

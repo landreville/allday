@@ -25,5 +25,5 @@ Rails.application.routes.draw do
   get "up" => "rails/health#show", :as => :rails_health_check
 
   # ActionCable WebSocket endpoint
-  mount ActionCable.server => '/cable'
+  mount ActionCable.server => "/cable"
 end

@@ -38,7 +38,18 @@ module Api
       end
 
       def message_params
-        params.require(:message).permit(:role, :content, :thinking, :sequence, :timestamp, metadata: {})
+        base_params = params.require(:message).permit(:role, :content, :thinking, :sequence, :timestamp)
+
+        # Allow specific metadata keys that are commonly used
+        if params[:message][:metadata].present?
+          metadata_params = params[:message][:metadata].permit(
+            :event_type, :tool_name, :source, :hook_type, :timestamp,
+            tool_input: {}, hook_data: {}
+          )
+          base_params[:metadata] = metadata_params.to_h
+        end
+
+        base_params
       end
     end
   end

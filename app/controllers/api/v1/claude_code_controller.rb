@@ -12,7 +12,7 @@ class Api::V1::ClaudeCodeController < Api::V1::BaseController
       metadata: session_start_params[:metadata] || {}
     )
 
-    broadcast_session_event('session_started', {
+    broadcast_session_event("session_started", {
       transcript_id: @transcript.id,
       session_id: @transcript.source_session_id,
       metadata: @transcript.metadata
@@ -33,7 +33,7 @@ class Api::V1::ClaudeCodeController < Api::V1::BaseController
       metadata: @transcript.metadata.merge(session_end_params[:metadata] || {})
     )
 
-    broadcast_session_event('session_ended', {
+    broadcast_session_event("session_ended", {
       transcript_id: @transcript.id,
       session_id: @transcript.source_session_id,
       message_count: @transcript.messages.count,
@@ -50,13 +50,13 @@ class Api::V1::ClaudeCodeController < Api::V1::BaseController
   # POST /api/v1/claude_code/stream_event
   def stream_event
     case stream_params[:event_type]
-    when 'user_prompt_submit'
+    when "user_prompt_submit"
       handle_user_message
-    when 'pre_tool_use'
+    when "pre_tool_use"
       handle_tool_planning
-    when 'post_tool_use'
+    when "post_tool_use"
       handle_tool_result
-    when 'assistant_response'
+    when "assistant_response"
       handle_assistant_message
     else
       render json: {error: "Unknown event type: #{stream_params[:event_type]}"}, status: :bad_request
@@ -102,12 +102,12 @@ class Api::V1::ClaudeCodeController < Api::V1::BaseController
       sequence: next_sequence,
       timestamp: parse_timestamp(stream_params[:payload][:timestamp]),
       metadata: {
-        event_type: 'user_prompt_submit',
+        event_type: "user_prompt_submit",
         hook_data: stream_params[:payload]
       }
     )
 
-    broadcast_message_event('user_message', @message)
+    broadcast_message_event("user_message", @message)
   end
 
   def handle_tool_planning
@@ -119,14 +119,14 @@ class Api::V1::ClaudeCodeController < Api::V1::BaseController
       sequence: next_sequence,
       timestamp: Time.current,
       metadata: {
-        event_type: 'pre_tool_use',
+        event_type: "pre_tool_use",
         tool_name: stream_params[:payload][:tool_name],
         tool_input: stream_params[:payload][:tool_input],
         hook_data: stream_params[:payload]
       }
     )
 
-    broadcast_message_event('tool_planning', @message)
+    broadcast_message_event("tool_planning", @message)
   end
 
   def handle_tool_result
@@ -137,14 +137,14 @@ class Api::V1::ClaudeCodeController < Api::V1::BaseController
       sequence: next_sequence,
       timestamp: Time.current,
       metadata: {
-        event_type: 'post_tool_use',
+        event_type: "post_tool_use",
         tool_name: stream_params[:payload][:tool_name],
         tool_input: stream_params[:payload][:tool_input],
         hook_data: stream_params[:payload]
       }
     )
 
-    broadcast_message_event('tool_result', @message)
+    broadcast_message_event("tool_result", @message)
   end
 
   def handle_assistant_message
@@ -156,12 +156,12 @@ class Api::V1::ClaudeCodeController < Api::V1::BaseController
       sequence: next_sequence,
       timestamp: parse_timestamp(stream_params[:payload][:timestamp]),
       metadata: {
-        event_type: 'assistant_response',
+        event_type: "assistant_response",
         hook_data: stream_params[:payload]
       }
     )
 
-    broadcast_message_event('assistant_message', @message)
+    broadcast_message_event("assistant_message", @message)
   end
 
   def next_sequence
@@ -170,7 +170,7 @@ class Api::V1::ClaudeCodeController < Api::V1::BaseController
 
   def parse_timestamp(timestamp_str)
     return Time.current unless timestamp_str
-    Time.parse(timestamp_str)
+    Time.zone.parse(timestamp_str)
   rescue ArgumentError
     Time.current
   end
