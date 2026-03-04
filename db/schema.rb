@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 # This file is auto-generated from the current state of the database. Instead
 # of editing this file, please use the migrations feature of Active Record to
 # incrementally modify your database, and then regenerate this schema definition.
@@ -12,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 20_260_301_191_929) do
+ActiveRecord::Schema[8.0].define(version: 2026_03_04_195217) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "vector"
@@ -27,6 +25,8 @@ ActiveRecord::Schema[8.0].define(version: 20_260_301_191_929) do
     t.bigint "parent_id"
     t.integer "origin", default: 0, null: false
     t.jsonb "metadata", default: {}
+    t.string "client"
+    t.index ["client"], name: "index_agents_on_client"
     t.index ["parent_id"], name: "index_agents_on_parent_id"
     t.index ["user_id"], name: "index_agents_on_user_id"
   end
@@ -59,7 +59,7 @@ ActiveRecord::Schema[8.0].define(version: 20_260_301_191_929) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["agent_id"], name: "index_messages_on_agent_id"
-    t.index %w[transcript_id sequence], name: "index_messages_on_transcript_id_and_sequence", unique: true
+    t.index ["transcript_id", "sequence"], name: "index_messages_on_transcript_id_and_sequence", unique: true
     t.index ["transcript_id"], name: "index_messages_on_transcript_id"
   end
 

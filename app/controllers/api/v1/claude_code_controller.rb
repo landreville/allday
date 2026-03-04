@@ -71,8 +71,9 @@ class Api::V1::ClaudeCodeController < Api::V1::BaseController
   def find_or_create_agent
     @agent = current_user.agents.find_or_create_by(
       name: "Claude Code",
-      origin: :claude_code
+      client: "claude_code"
     ) do |agent|
+      agent.origin = :blank_slate
       agent.llm_model = "claude-3-5-sonnet"
       agent.metadata = {
         source: "claude_code",

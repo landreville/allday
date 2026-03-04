@@ -7,11 +7,14 @@ class Agent < ApplicationRecord
   has_many :transcripts, dependent: :destroy
   has_many :memory_chunks, dependent: :destroy
 
-  enum :origin, {blank_slate: 0, continued: 1, branched: 2, claude_code: 3}
+  enum :origin, {blank_slate: 0, continued: 1, branched: 2}
 
   validates :name, presence: true
   validates :origin, presence: true
   validate :parent_required_for_branched
+
+  # Scopes for different client types
+  scope :claude_code, -> { where(client: 'claude_code') }
 
   private
 
